@@ -26,13 +26,7 @@ def find_next_prime(n):
 
 
 def get_primes_in_window(low_val, high_val):
-    primes = []
-
-    for num in range(low_val, high_val):
-        if is_prime(num):
-            primes.append(num)
-
-    return primes
+    return [num for num in range(low_val, high_val) if is_prime(num) == True]
 
 for num in get_primes_in_window(low_val=0, high_val=10000):
     print(num)
