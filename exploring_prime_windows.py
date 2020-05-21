@@ -133,7 +133,7 @@ if __name__ == '__main__':
     window_size = 10000
     windows_start = 0
     windows_stop = 500000
-    overlay = False # if True, the memory usage will be much higher
+    overlay = True # if True, the memory usage will be much higher
     zeros = False
 
     for i in range(windows_start, windows_stop, window_size):
