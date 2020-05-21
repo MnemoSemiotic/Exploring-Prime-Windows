@@ -70,6 +70,12 @@ def plot_primes_window(distances_distribution, window_low, window_high, primes_c
     plt.plot(distances, counts)
 
 
+    for dist, count in zip(distances, counts):
+        label = '{}'.format(dist)
+
+        plt.annotate(label, (dist, count), textcoords="offset points", xytext=(0,0), ha='center', color='black', bbox=dict(boxstyle='circle, pad=0.05', fc='yellow', alpha=0.3))
+
+
     col_labels = ['distance', 'count']
     table_vals = []
     for i in range(15):
@@ -101,7 +107,7 @@ if __name__ == '__main__':
     primes_list = get_primes_in_window(low_val=0, high_val=10000)
     num_primes = len(primes_list)
 
-    d =  build_primes_dist_distr(get_distances(primes_list), include_zeros=True)
+    d =  build_primes_dist_distr(get_distances(primes_list), include_zeros=False)
     
     
     plot_primes_window(d, window_low, window_low + window_size, len(primes_list), overlay=False)
