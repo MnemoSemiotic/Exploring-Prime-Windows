@@ -35,4 +35,23 @@ def get_distances(primes_list):
 
     return [num - offset[idx] for idx, num in enumerate(rev[:len(rev)-1])][::-1]
 
-print(get_distances(get_primes_in_window(low_val=0, high_val=10000)))
+
+def build_primes_dist_distr(primes_dist_window, include_zeros=True):
+    d = dict()
+
+    if include_zeros == True:
+        for i in range(max(primes_dist_window)+1):
+            d[i] = primes_dist_window.count(i)
+
+    else:
+        for dist in primes_dist_window:
+            if dist not in d:
+                d[dist] = primes_dist_window.count(dist)
+
+    return d
+
+if __name__ == '__main__':
+    # print(get_distances(get_primes_in_window(low_val=0, high_val=10000)))
+
+    for k, v in build_primes_dist_distr(get_distances(get_primes_in_window(low_val=0, high_val=10000)), include_zeros=False).items():
+        print(f'{k}: {v}')
