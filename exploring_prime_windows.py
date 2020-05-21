@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 
 def is_prime(num):
     if num == 2 or num == 3:
@@ -50,8 +52,38 @@ def build_primes_dist_distr(primes_dist_window, include_zeros=True):
 
     return d
 
+
+def plot_primes_window(distances_distribution, window_low, window_high, primes_count, overlay=False):
+    print(f'plotting window {window_low} to {window_high}')
+
+    distances, counts = [], []
+
+    for dist, count in sorted(distances_distribution.items()):
+        distances.append(dist)
+        counts.append(count)
+
+    plt.scatter(distances, counts, marker="_")
+    plt.plot(distances, counts)
+
+    plt.show()
+
+
+
+
+
+
+
 if __name__ == '__main__':
     # print(get_distances(get_primes_in_window(low_val=0, high_val=10000)))
 
-    for k, v in build_primes_dist_distr(get_distances(get_primes_in_window(low_val=0, high_val=10000)), include_zeros=False).items():
-        print(f'{k}: {v}')
+    window_low = 0
+    # window_high = 10000
+    window_size = 10000
+
+    primes_list = get_primes_in_window(low_val=0, high_val=10000)
+    num_primes = len(primes_list)
+
+    d =  build_primes_dist_distr(get_distances(primes_list), include_zeros=True)
+    
+    
+    plot_primes_window(d, window_low, window_low + window_size, primes_list, overlay=False)
