@@ -65,6 +65,12 @@ def plot_primes_window(distances_distribution, window_low, window_high, primes_c
     plt.scatter(distances, counts, marker="_")
     plt.plot(distances, counts)
 
+
+    plt.suptitle(f'Prime Window between {window_low} and {window_high}')
+    plt.title(f'Total Primes: {primes_count}, Max Distance: {max(distances)}')
+    plt.xlabel('Distance')
+    plt.ylabel('Occurrence of Distance in Window')
+
     plt.show()
 
 
@@ -76,7 +82,7 @@ def plot_primes_window(distances_distribution, window_low, window_high, primes_c
 if __name__ == '__main__':
     # print(get_distances(get_primes_in_window(low_val=0, high_val=10000)))
 
-    window_low = 0
+    window_low = 10000
     # window_high = 10000
     window_size = 10000
 
@@ -86,4 +92,4 @@ if __name__ == '__main__':
     d =  build_primes_dist_distr(get_distances(primes_list), include_zeros=True)
     
     
-    plot_primes_window(d, window_low, window_low + window_size, primes_list, overlay=False)
+    plot_primes_window(d, window_low, window_low + window_size, len(primes_list), overlay=False)
