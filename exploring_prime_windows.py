@@ -136,22 +136,38 @@ if __name__ == '__main__':
     overlay = True # if True, the memory usage will be much higher
     zeros = False
 
-    for i in range(windows_start, windows_stop, window_size):
+    data_fields = ['window_start', 'window_stop', 'window_size', 'prime_count', 'max_prime_distance', 'primes_list', 'prime_distances_tuples']
 
-        window_low = i
-        window_high = i + window_size
-
-        primes_window = get_primes_in_window(window_low, window_high)
-
-        num_primes = len(primes_window)
-
-        primes_window_distances = get_distances(primes_window)
-
-        max_prime_dist = max(primes_window_distances)
-
-        distances_distribution = build_primes_dist_distr(primes_window_distances, include_zeros=zeros)
+    file_to_write = f'data/prime_windows_from_{windows_start}_to_{windows_stop}_by_{window_size}.csv'
 
 
-        plot_primes_window(distances_distribution, window_low, window_high, num_primes, overlay=overlay)
+    with open(file_to_write, 'w') as f:
+        f.write(','.join(data_fields) + '\n')
+
+
+        for i in range(windows_start, windows_stop, window_size):
+
+            window_low = i
+            window_high = i + window_size
+
+            primes_window = get_primes_in_window(window_low, window_high)
+
+            num_primes = len(primes_window)
+
+            primes_window_distances = get_distances(primes_window)
+
+            max_prime_dist = max(primes_window_distances)
+
+            distances_distribution = build_primes_dist_distr(primes_window_distances, include_zeros=zeros)
+
+            # for storing to data file
+            distances_for_storage = sorted(build_primes_dist_distr(primes_window_distances, include_zeros=True).items())
+
+
+            plot_primes_window(distances_distribution, window_low, window_high, num_primes, overlay=overlay)
+
+
+            f.write(f'{window_low},{window_high-1},{window_size},{num_primes},{max_prime_dist},{primes_window},{distances_for_storage}\n')
+
 
     stitch_video(directory='images', filename=f'prime_windows_from_{windows_start}_to_{windows_stop}_by_{window_size}_overlay_{overlay}_zeros_{zeros}.avi', delete_images=True)
