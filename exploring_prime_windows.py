@@ -70,10 +70,11 @@ def plot_primes_window(distances_distribution, window_low, window_high, primes_c
     plt.plot(distances, counts)
 
 
-    for dist, count in zip(distances, counts):
-        label = '{}'.format(dist)
+    if overlay == False:
+        for dist, count in zip(distances, counts):
+            label = '{}'.format(dist)
 
-        plt.annotate(label, (dist, count), textcoords="offset points", xytext=(0,0), ha='center', color='black', bbox=dict(boxstyle='circle, pad=0.05', fc='yellow', alpha=0.3))
+            plt.annotate(label, (dist, count), textcoords="offset points", xytext=(0,0), ha='center', color='black', bbox=dict(boxstyle='circle, pad=0.05', fc='yellow', alpha=0.3))
 
 
     col_labels = ['distance', 'count']
@@ -89,7 +90,19 @@ def plot_primes_window(distances_distribution, window_low, window_high, primes_c
     plt.xlabel('Distance')
     plt.ylabel('Occurrence of Distance in Window')
 
-    plt.show()
+    plt.ylim(ymax=200, ymin=0)
+    plt.xlim(xmax=115, xmin=0)
+
+
+    # plt.show()
+
+    plt.savefig(f'images/prime_window_{str(window_low).zfill(10)}_{str(window_high).zfill(10)}')
+
+    if overlay == False:
+        plt.clf()
+
+    
+    
 
 
 
@@ -98,16 +111,27 @@ def plot_primes_window(distances_distribution, window_low, window_high, primes_c
 
 
 if __name__ == '__main__':
-    # print(get_distances(get_primes_in_window(low_val=0, high_val=10000)))
 
-    window_low = 10000
-    # window_high = 10000
     window_size = 10000
+    windows_start = 0
+    windows_stop = 100000
+    overlay = True
+    zeros = False
 
-    primes_list = get_primes_in_window(low_val=0, high_val=10000)
-    num_primes = len(primes_list)
+    for i in range(windows_start, windows_stop, window_size):
 
-    d =  build_primes_dist_distr(get_distances(primes_list), include_zeros=False)
-    
-    
-    plot_primes_window(d, window_low, window_low + window_size, len(primes_list), overlay=False)
+        window_low = i
+        window_high = i + window_size
+
+        primes_window = get_primes_in_window(window_low, window_high)
+
+        num_primes = len(primes_window)
+
+        primes_window_distances = get_distances(primes_window)
+
+        max_prime_dist = max(primes_window_distances)
+
+        distances_distribution = build_primes_dist_distr(primes_window_distances, include_zeros=zeros)
+
+
+        plot_primes_window(distances_distribution, window_low, window_high, num_primes, overlay=overlay)
