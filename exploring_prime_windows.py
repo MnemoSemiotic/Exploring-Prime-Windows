@@ -62,8 +62,20 @@ def plot_primes_window(distances_distribution, window_low, window_high, primes_c
         distances.append(dist)
         counts.append(count)
 
+
+    sorted_counts, sorted_distances = zip(*sorted(zip(counts, distances), reverse=True))
+
+
     plt.scatter(distances, counts, marker="_")
     plt.plot(distances, counts)
+
+
+    col_labels = ['distance', 'count']
+    table_vals = []
+    for i in range(15):
+        table_vals.append([sorted_distances[i], sorted_counts[i]])
+
+    plt.table(cellText=table_vals, colWidths = [.1]*3, colLabels=col_labels, loc='center right')
 
 
     plt.suptitle(f'Prime Window between {window_low} and {window_high}')
