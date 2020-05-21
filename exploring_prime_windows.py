@@ -133,7 +133,7 @@ if __name__ == '__main__':
     window_size = 10000
     windows_start = 0
     windows_stop = 500000
-    overlay = True # if True, the memory usage will be much higher
+    overlay = False # if True, the memory usage will be much higher
     zeros = False
 
     data_fields = ['window_start', 'window_stop', 'window_size', 'prime_count', 'max_prime_distance', 'primes_list', 'prime_distances_tuples']
@@ -170,4 +170,4 @@ if __name__ == '__main__':
             f.write(f'{window_low},{window_high-1},{window_size},{num_primes},{max_prime_dist},{primes_window},{distances_for_storage}\n')
 
 
-    stitch_video(directory='images', filename=f'prime_windows_from_{windows_start}_to_{windows_stop}_by_{window_size}_overlay_{overlay}_zeros_{zeros}.avi', delete_images=True)
+    # stitch_video(directory='images', filename=f'prime_windows_from_{windows_start}_to_{windows_stop}_by_{window_size}_overlay_{overlay}_zeros_{zeros}.avi', delete_images=True)
