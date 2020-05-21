@@ -11,6 +11,17 @@ def is_prime(num):
 
     return True
 
-for num in range(100):
-    if is_prime(num):
-        print(num)
+
+def find_next_prime(n):
+    count = n+1
+    continue_looking = True
+
+    while continue_looking:
+        if is_prime(count):
+            continue_looking = False
+            break
+        count += 1
+    
+    return count
+
+print(find_next_prime(13))
