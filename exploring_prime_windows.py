@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import cv2
+import os
 
 
 def is_prime(num):
@@ -102,8 +104,24 @@ def plot_primes_window(distances_distribution, window_low, window_high, primes_c
         plt.clf()
 
     
-    
+def stitch_video(directory='images', filename='video.avi', delete_images=True):
+    image_folder = directory
+    video_name = filename
 
+    images = sorted([img for img in os.listdir(image_folder) if img.endswith('.png')])
+
+    frame = cv2.imread(os.path.join(image_folder, images[0]))
+    height, width, _ = frame.shape
+
+    video = cv2.VideoWriter(video_name, 0, 1, (width, height))
+
+    for image in images:
+        path_to_image = os.path.join(image_folder, image)
+        video.write(cv2.imread(path_to_image))
+        os.remove(path_to_image)
+
+    cv2.destroyAllWindows()
+    video.release()
 
 
 
@@ -114,8 +132,8 @@ if __name__ == '__main__':
 
     window_size = 10000
     windows_start = 0
-    windows_stop = 100000
-    overlay = True
+    windows_stop = 500000
+    overlay = False # if True, the memory usage will be much higher
     zeros = False
 
     for i in range(windows_start, windows_stop, window_size):
@@ -135,3 +153,5 @@ if __name__ == '__main__':
 
 
         plot_primes_window(distances_distribution, window_low, window_high, num_primes, overlay=overlay)
+
+    stitch_video(directory='images', filename=f'prime_windows_from_{windows_start}_to_{windows_stop}_by_{window_size}_overlay_{overlay}_zeros_{zeros}.avi', delete_images=True)
