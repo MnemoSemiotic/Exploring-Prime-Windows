@@ -28,5 +28,11 @@ def find_next_prime(n):
 def get_primes_in_window(low_val, high_val):
     return [num for num in range(low_val, high_val) if is_prime(num) == True]
 
-for num in get_primes_in_window(low_val=0, high_val=10000):
-    print(num)
+
+def get_distances(primes_list):
+    rev = primes_list[::-1]
+    offset = rev[1:]
+
+    return [num - offset[idx] for idx, num in enumerate(rev[:len(rev)-1])][::-1]
+
+print(get_distances(get_primes_in_window(low_val=0, high_val=10000)))
